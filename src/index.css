@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+:fullscreen {
+  background-color: #e0f2fe; /* This is the sky-100 color */
+}
+:-webkit-full-screen {
+  background-color: #e0f2fe;
+}
