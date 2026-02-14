@@ -12,16 +12,16 @@ export default function MemoryMatch({ onLevelUp, isPaused }) {
 
     const getLayout = (total) => {
         const layouts = {
-            4: { cols: 2, rows: 2 },  // Nivo 1
-            6: { cols: 3, rows: 2 },  // Nivo 2
-            8: { cols: 4, rows: 2 },  // Nivo 3
-            10: { cols: 5, rows: 2 }, // Nivo 4
-            12: { cols: 4, rows: 3 }, // Nivo 5
-            14: { cols: 7, rows: 2 }, // Nivo 6
-            16: { cols: 4, rows: 4 }, // Nivo 7
-            18: { cols: 6, rows: 3 }, // Nivo 8
-            20: { cols: 5, rows: 4 }, // Nivo 9
-            24: { cols: 6, rows: 4 }, // Nivo 10 (FINAL)
+            4: { cols: 2, rows: 2 },
+            6: { cols: 3, rows: 2 },
+            8: { cols: 4, rows: 2 },
+            10: { cols: 5, rows: 2 },
+            12: { cols: 4, rows: 3 },
+            14: { cols: 7, rows: 2 },
+            16: { cols: 4, rows: 4 },
+            18: { cols: 6, rows: 3 },
+            20: { cols: 5, rows: 4 },
+            24: { cols: 6, rows: 4 },
         };
         return layouts[total] || { cols: 4, rows: Math.ceil(total / 4) };
     };
@@ -68,16 +68,13 @@ export default function MemoryMatch({ onLevelUp, isPaused }) {
     useEffect(() => {
         if (cards.length > 0 && solved.length === cards.length) {
             setTimeout(() => {
-                // Check if we just finished Nivo 10 (24 cards)
                 if (numCards >= 24) {
                     setHasWon(true);
-                    setNumCards(4); // Reset to Level 1
+                    setNumCards(4);
                 } else {
-                    onLevelUp(); // Trigger the Quiz
-
-                    // Logic to stay in even/rectangular numbers
+                    onLevelUp();
                     setNumCards(prev => {
-                        if (prev === 20) return 24; // Skip 22 to get a perfect 6x4 at Nivo 10
+                        if (prev === 20) return 24;
                         return prev + 2;
                     });
                 }
@@ -95,7 +92,7 @@ export default function MemoryMatch({ onLevelUp, isPaused }) {
                             МИСИЈАТА Е <span className="text-cyan-400">УСПЕШНА!</span>
                         </h2>
                         <p className="text-xl text-slate-300 mb-8 max-w-md mx-auto">
-                            Ти ги помина сите нива на Мемориja и докажа дека си вистински ФИНКИнаут!
+                            Ти ги помина сите нивоа на мемориja и докажа дека си вистински ФИНКИнаут!
                         </p>
 
                         <div className="flex flex-col gap-4">
@@ -117,9 +114,7 @@ export default function MemoryMatch({ onLevelUp, isPaused }) {
                 </div>
             )}
             <div className="mb-4">
-                <span className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-1 rounded-full text-sm font-black tracking-widest shadow-md">
-                    {/* Level formula adjusted for the jump from 20 to 24 */}
-                    НИВО {numCards === 24 ? 10 : (numCards / 2) - 1}
+                <span className="bg-[#d51920] text-white px-6 py-2 rounded-full text-sm font-black tracking-[0.2em] uppercase border-b-4 border-[#003663] shadow-lg">                    НИВО {numCards === 24 ? 10 : (numCards / 2) - 1}
                 </span>
             </div>
 
@@ -141,8 +136,7 @@ export default function MemoryMatch({ onLevelUp, isPaused }) {
                                 w-20 h-20 sm:w-24 sm:h-24 text-4xl sm:text-5xl
                                 ${isFlipped
                                     ? 'bg-white rotate-0 shadow-sm border-2 border-purple-100'
-                                    : 'bg-purple-500 rotate-180 shadow-[0_8px_0_rgb(126,34,206)] hover:scale-105 active:translate-y-1 active:shadow-none'
-                                }
+                                    : 'bg-[#faa61a] rotate-180 shadow-[0_4px_0_#003663] hover:scale-105 active:translate-y-1 active:shadow-none'}
                             `}
                         >
                             {isFlipped ? (

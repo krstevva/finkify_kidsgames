@@ -11,12 +11,7 @@ const PatternUnlock = ({ onLevelUp, isPaused }) => {
 
     const containerRef = useRef(null);
 
-    // Генерирање на случајна шема базирана на нивото
     const generatePattern = (lvl) => {
-        // Ниво 1-2: 3 точки
-        // Ниво 3-5: 4 точки
-        // Ниво 6-8: 5 точки
-        // Ниво 9-10: 6 точки (ова е идеалниот баланс за 3x3 мрежа)
         let length;
         if (lvl <= 2) length = 3;
         else if (lvl <= 5) length = 4;
@@ -37,23 +32,19 @@ const PatternUnlock = ({ onLevelUp, isPaused }) => {
         return newPattern;
     };
 
-    // Стартување на ново ниво
     useEffect(() => {
         if (level <= 10) {
             const newPat = generatePattern(level);
             setTargetPattern(newPat);
             setUserPattern([]);
-            // ТУКА НЕ ПОВИКУВАМЕ showPatternToUser
         } else {
             setIsGameFinished(true);
         }
     }, [level]);
 
     useEffect(() => {
-        // Провери дали квизот е затворен И дали имаме подготвена шема што не е прикажана
         if (!isPaused && targetPattern.length > 0 && userPattern.length === 0 && !isGameFinished) {
 
-            // Мала пауза за окото да се прилагоди по квизот
             const delayBeforeStart = setTimeout(() => {
                 showPatternToUser(targetPattern);
             }, 500);
@@ -63,12 +54,11 @@ const PatternUnlock = ({ onLevelUp, isPaused }) => {
     }, [isPaused, targetPattern]);
 
     const showPatternToUser = (pattern) => {
-        if (isPaused) return; // СТОП ако е паузирано
+        if (isPaused) return;
 
         setIsShowingPattern(true);
         let i = 0;
         const interval = setInterval(() => {
-            // Ако во меѓувреме се паузира (не би требало, но за безбедност)
             setUserPattern(pattern.slice(0, i + 1));
             i++;
 
@@ -89,7 +79,6 @@ const PatternUnlock = ({ onLevelUp, isPaused }) => {
             const newPattern = [...userPattern, index];
             setUserPattern(newPattern);
 
-            // Проверка дали е грешка во сред влечење
             if (targetPattern[newPattern.length - 1] !== index) {
                 handleFailure();
             } else if (newPattern.length === targetPattern.length) {
@@ -102,10 +91,10 @@ const PatternUnlock = ({ onLevelUp, isPaused }) => {
         setFeedback('success');
         setTimeout(() => {
             setFeedback('');
-            setUserPattern([]); // Ја чистиме старата шема
+            setUserPattern([]);
             if (level < 10) {
                 setLevel(prev => prev + 1);
-                onLevelUp(); // Ова го отвора квизот (isPaused станува true)
+                onLevelUp(); 
             } else {
                 setIsGameFinished(true);
             }
@@ -118,7 +107,7 @@ const PatternUnlock = ({ onLevelUp, isPaused }) => {
         setTimeout(() => {
             setFeedback('');
             setUserPattern([]);
-            showPatternToUser(targetPattern); // Повтори ја анимацијата
+            showPatternToUser(targetPattern); 
         }, 1000);
     };
 

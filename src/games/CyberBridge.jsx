@@ -6,7 +6,7 @@ export default function CyberBridge({ onLevelUp, isPaused }) {
   const [level, setLevel] = useState(1);
   const [activeNode, setActiveNode] = useState(null);
   const [isGameOver, setIsGameOver] = useState(false);
-  const [isGameFinished, setIsGameFinished] = useState(false); // New state
+  const [isGameFinished, setIsGameFinished] = useState(false);
 
   useEffect(() => {
     generateLevel();
@@ -14,17 +14,40 @@ export default function CyberBridge({ onLevelUp, isPaused }) {
 
   const generateLevel = () => {
     const newNodes = [];
-    const count = 4 + Math.min(level, 6); 
-    
+    const count = 4 + Math.min(level, 6);
+    const minDistance = 10; 
+
     for (let i = 0; i < count; i++) {
-      newNodes.push({
-        id: i,
-        x: 10 + Math.random() * 80,
-        y: 20 + Math.random() * 60,
-        type: i === 0 ? 'start' : i === count - 1 ? 'end' : 'data',
-        order: i,
-        status: i === 0 ? 'active' : 'idle'
-      });
+      let newNode;
+      let isTooClose;
+      let attempts = 0;
+
+      do {
+        isTooClose = false;
+        newNode = {
+          id: i,
+          x: 10 + Math.random() * 80,
+          y: 20 + Math.random() * 60,
+          type: i === 0 ? 'start' : i === count - 1 ? 'end' : 'data',
+          order: i,
+          status: i === 0 ? 'active' : 'idle'
+        };
+
+        for (const existingNode of newNodes) {
+          const dx = newNode.x - existingNode.x;
+          const dy = newNode.y - existingNode.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < minDistance) {
+            isTooClose = true;
+            break;
+          }
+        }
+        
+        attempts++;
+      } while (isTooClose && attempts < 50);
+
+      newNodes.push(newNode);
     }
     setNodes(newNodes);
     setConnections([]);
@@ -44,12 +67,11 @@ export default function CyberBridge({ onLevelUp, isPaused }) {
 
       if (clickedNode.type === 'end') {
         if (level >= 10) {
-          // Trigger the final "Finished" screen
           setIsGameFinished(true);
         } else {
           setTimeout(() => {
             setLevel(prev => prev + 1);
-            onLevelUp(); // Trigger the quiz between levels
+            onLevelUp();
           }, 500);
         }
       }
@@ -58,7 +80,6 @@ export default function CyberBridge({ onLevelUp, isPaused }) {
 
   return (
     <div className="flex flex-col items-center w-full h-[500px] select-none relative">
-      {/* HUD */}
       <div className="w-full flex justify-between mb-4 px-6">
         <div className="bg-cyan-600 text-white px-4 py-2 rounded-2xl font-black shadow-lg">
           МИСИЈА: {level}/10
@@ -66,7 +87,6 @@ export default function CyberBridge({ onLevelUp, isPaused }) {
         <div className="text-slate-500 font-bold animate-pulse">Поврзи ги сите точки! ⚡</div>
       </div>
 
-      {/* Game Board */}
       <div className="relative w-full flex-1 bg-slate-900 rounded-[2rem] border-4 border-slate-700 overflow-hidden shadow-2xl">
         <svg className="absolute inset-0 w-full h-full pointer-events-none">
           {connections.map((conn, idx) => {
@@ -105,7 +125,6 @@ export default function CyberBridge({ onLevelUp, isPaused }) {
           </button>
         ))}
 
-        {/* THE FINAL PROMPT OVERLAY */}
         {isGameFinished && (
           <div className="absolute inset-0 bg-slate-900/95 z-[100] flex items-center justify-center p-6 animate-in fade-in zoom-in duration-500">
             <div className="text-center">

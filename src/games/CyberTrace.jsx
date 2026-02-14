@@ -4,23 +4,21 @@ export default function CyberTrace({ onLevelUp, isPaused }) {
   const [nodes, setNodes] = useState([]);
   const [targetLevel, setTargetLevel] = useState(1);
   const [score, setScore] = useState(0);
-  const [highScore, setHighScore] = useState(0); // New state for High Score
-  const [timeLeft, setTimeLeft] = useState(10);
+  const [highScore, setHighScore] = useState(0); 
+  const [timeLeft, setTimeLeft] = useState(20);
   const [isGameOver, setIsGameOver] = useState(false);
 
   const ICONS = ['🔒', '🔑', '📡', '💻', '🛡️', '📱'];
 
-  // Load high score on mount
   useEffect(() => {
-    const saved = localStorage.getItem('cyberTraceHighScore') || 0;
+    const saved = sessionStorage.getItem('cyberTraceHighScore') || 0;
     setHighScore(parseInt(saved));
   }, []);
 
-  // Update high score when game ends
   useEffect(() => {
     if (isGameOver && score > highScore) {
       setHighScore(score);
-      localStorage.setItem('cyberTraceHighScore', score.toString());
+      sessionStorage.setItem('cyberTraceHighScore', score.toString());
     }
   }, [isGameOver, score, highScore]);
 
@@ -80,7 +78,6 @@ export default function CyberTrace({ onLevelUp, isPaused }) {
 
   return (
     <div className="flex flex-col items-center w-full h-[500px] relative select-none">
-      {/* HUD */}
       <div className="w-full flex justify-between mb-4 px-6 z-10">
         <div className="flex flex-col gap-1">
             <div className="bg-blue-600 text-white px-4 py-1 rounded-xl font-black shadow-lg text-xs uppercase tracking-wider">
@@ -95,12 +92,11 @@ export default function CyberTrace({ onLevelUp, isPaused }) {
           ВРЕМЕ: {timeLeft}s
         </div>
 
-        <div className="bg-green-500 text-white px-4 py-2 h-fit rounded-2xl font-black shadow-lg">
+        <div className="bg-[#008b44] text-white px-4 py-2 h-fit rounded-2xl font-black shadow-lg">
           ПОЕНИ: {score}
         </div>
       </div>
 
-      {/* Game Board */}
       <div className="relative w-full flex-1 bg-slate-100 rounded-3xl border-4 border-slate-200 overflow-hidden shadow-inner">
         {nodes.map(node => (
           <button

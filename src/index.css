@@ -6,3 +6,10 @@
 :-webkit-full-screen {
   background-color: #e0f2fe;
 }
+
+.cyber-bg {
+  background-color: #020617;
+  background-image: radial-gradient(circle at center, #064e3b 0%, #020617 100%);
+  position: relative;
+  overflow: hidden;
+}

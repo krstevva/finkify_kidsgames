@@ -12,7 +12,6 @@ export default function CyberRunner({ onLevelUp, isPaused }) {
     const scoreRef = useRef(0);
     const speedMultiplier = useRef(1);
 
-    // Function to reset the game internally
     const resetGame = () => {
         scoreRef.current = 0;
         setGameScore(0);
@@ -23,7 +22,7 @@ export default function CyberRunner({ onLevelUp, isPaused }) {
     };
 
     useEffect(() => {
-        if (isGameOver) return; // Stop the loop logic if game is over
+        if (isGameOver) return; 
 
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
@@ -50,7 +49,6 @@ export default function CyberRunner({ onLevelUp, isPaused }) {
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Draw Player
             ctx.font = '45px serif';
             ctx.fillText('🧑‍💻', playerPos.current.x, playerPos.current.y + 40);
 
@@ -59,7 +57,6 @@ export default function CyberRunner({ onLevelUp, isPaused }) {
                 ctx.font = '35px serif';
                 ctx.fillText(item.char, item.x, item.y);
 
-                // Collision detection
                 const dist = Math.sqrt(
                     Math.pow(playerPos.current.x + 20 - (item.x + 15), 2) +
                     Math.pow(playerPos.current.y + 20 - (item.y - 15), 2)
@@ -71,13 +68,10 @@ export default function CyberRunner({ onLevelUp, isPaused }) {
                         scoreRef.current += 10;
                         setGameScore(scoreRef.current);
                         if (scoreRef.current > 0 && scoreRef.current % 100 === 0) {
-                            // 1. Smaller speed jump for smoothness
                             speedMultiplier.current += 0.15;
 
-                            // 2. Clear existing items so the new level starts with a fresh screen
                             items.current = [];
 
-                            // 3. Trigger Quiz
                             onLevelUp();
                         }
                     } else {
@@ -131,7 +125,6 @@ export default function CyberRunner({ onLevelUp, isPaused }) {
                     className="bg-slate-900 rounded-2xl cursor-none border-8 border-slate-800 shadow-2xl"
                 />
 
-                {/* GAME OVER OVERLAY */}
                 {isGameOver && (
                     <div className="absolute inset-0 bg-slate-900/90 rounded-xl flex flex-col items-center justify-center text-center p-6 animate-in fade-in zoom-in duration-300">
                         <span className="text-6xl mb-4">👾</span>
