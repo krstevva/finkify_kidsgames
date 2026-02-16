@@ -11,6 +11,9 @@ import BlockPuzzle from './games/BlockPuzzle';
 import PasswordDecryptor from './games/PasswordDecryptor';
 import BinarySequence from './games/BinarySequence';
 
+import logo from "./assets/Logo-Horizontal-Color-01-1.svg";
+
+
 
 
 function App() {
@@ -42,9 +45,9 @@ function App() {
     <div className="min-h-screen bg-sky-100 font-sans text-slate-800">
       <header className="p-4 flex justify-between items-center bg-white shadow-md">
         <img
-          src="src\assets\Logo-Horizontal-Color-01-1.svg"
+          src={logo}
           alt="MKSafeNet Logo"
-          className="h-10 w-auto"
+          className="h-10 w-auto cursor-pointer"
           onClick={() => window.open("https://mksafenet.mk/", "_blank", "noopener,noreferrer")}
         />
         <div className="flex gap-4 items-center">
@@ -69,11 +72,11 @@ function App() {
               <div className="flex flex-col items-center gap-6">
                 <div className="bg-sky-100/50 p-6 rounded-3xl border-2 border-sky-200 max-w-3xl shadow-sm">
                   <h4 className="text-lg md:text-xl text-slate-700 font-bold leading-tight uppercase tracking-tight">
-                    Научи како безбедно да навигираш низ дигиталниот свет и стани следната генерација на <span className="text-[#faa61a]">ФИНКИ</span> експерти.
+                    Научи како безбедно да навигираш низ дигиталниот свет!
                   </h4>
                   <div className="h-1 w-24 bg-[#faa61a] mx-auto my-3 rounded-full"></div>
                   <p className="text-sm text-slate-500 font-medium lowercase italic">
-                    Совладај ги сајбер-предизвиците на <span className="text-[#faa61a] not-italic font-black uppercase tracking-widest">MKSafe.net</span> и заштити ја својата иднина.
+                    Совладај ги сајбер-предизвиците на <span className="text-[#faa61a] not-italic font-black uppercase tracking-widest">MKSafe.net</span> и заштити ја својата иднина
                   </p>
                 </div>
 
